@@ -1,10 +1,12 @@
-import { Pressable, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
+import PressableScale from '../PressableScale/PressableScale'
 import { colors, fonts } from '@/theme'
 
 // variant: 'primary' (relleno acento) | 'secondary' (borde neutro) | 'destructive' (borde y texto acento)
+// Al tocar se achica levemente (PressableScale) y baja un poco la opacidad.
 export default function Button({ label, onPress, variant = 'primary', disabled = false, style }) {
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
@@ -18,7 +20,7 @@ export default function Button({ label, onPress, variant = 'primary', disabled =
       ]}
     >
       <Text style={[styles.label, styles[`${variant}Label`]]} numberOfLines={2}>{label}</Text>
-    </Pressable>
+    </PressableScale>
   )
 }
 

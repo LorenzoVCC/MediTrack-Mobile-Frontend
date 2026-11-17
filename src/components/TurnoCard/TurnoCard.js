@@ -1,15 +1,18 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { memo } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import Chevron from '../Chevron/Chevron'
+import PressableScale from '../PressableScale/PressableScale'
 import StatusBadge from '../StatusBadge/StatusBadge'
 import { colors, fonts } from '@/theme'
 
 // Tarjeta de un turno. Recibe los textos ya formateados; muted atenúa los pasados o cancelados.
-export default function TurnoCard({ date, time, doctorName, status, muted = false, onPress }) {
+// onPress(id): la lista pasa un callback estable, así memo evita re-renderizar las tarjetas que no cambian.
+function TurnoCard({ id, date, time, doctorName, status, muted = false, onPress }) {
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityLabel={`Turno del ${date} a las ${time}, con ${doctorName}. ${status}`}
-      onPress={onPress}
+      onPress={() => onPress(id)}
       style={({ pressed }) => [styles.card, muted && styles.muted, pressed && styles.pressed]}
     >
       <View style={styles.body}>
@@ -21,9 +24,11 @@ export default function TurnoCard({ date, time, doctorName, status, muted = fals
         <Text style={styles.doctor} numberOfLines={1}>{doctorName}</Text>
       </View>
       <Chevron direction="right" />
-    </Pressable>
+    </PressableScale>
   )
 }
+
+export default memo(TurnoCard)
 
 const styles = StyleSheet.create({
   card: {

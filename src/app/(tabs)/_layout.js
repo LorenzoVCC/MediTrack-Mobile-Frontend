@@ -1,37 +1,40 @@
+import { Easing } from 'react-native'
 import { Tabs } from 'expo-router/js-tabs'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import TabIcon from '@/components/TabIcon/TabIcon'
-import { colors, fonts } from '@/theme'
+import TabBar from '@/components/TabBar/TabBar'
+import { colors } from '@/theme'
 
 export const unstable_settings = {
   initialRouteName: 'turnos',
 }
 
-const TAB_BAR_HEIGHT = 68
+// Cambio de pestaña: desplazamiento corto con curva suave (corre con native driver)
+const TAB_TRANSITION = {
+  animation: 'timing',
+  config: { duration: 200, easing: Easing.out(Easing.cubic) },
+}
 
-// Menú inferior: Historial, Turnos, Perfil. La pestaña activa lleva fondo verde.
+// Menú inferior: Historial, Turnos, Perfil. Barra propia (TabBar): la pestaña activa lleva una
+// píldora roja que se desliza entre pestañas, con ícono y etiqueta en blanco.
 // Historial y Turnos son stacks: el menú sigue visible en sus detalles, con la pestaña de origen marcada.
 // popToTopOnBlur: al volver a esa pestaña se ve la lista, no el detalle que quedó abierto.
-export default function TabsLayout() {
-  const insets = useSafeAreaInsets()
+// lazy: false precarga las tres pestañas al inicio, así el primer cambio no espera a montar la pantalla.
+// Las pestañas quedan montadas al cambiar; freezeOnBlur no tiene efecto en Expo Router.
+const renderTabBar = props => <TabBar {...props} />
 
+export default function TabsLayout() {
   return (
     <Tabs
+      tabBar={renderTabBar}
       screenOptions={{
         headerShown: false,
+        lazy: false,
+        animation: 'shift',
+        transitionSpec: TAB_TRANSITION,
+        // Fondo de la app en la escena: evita el flash blanco del tema por defecto durante la transición
+        sceneStyle: { backgroundColor: colors.background },
+        // La lee TabBar: el menú se oculta mientras el teclado está abierto (formulario de Perfil)
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: colors.green,
-        tabBarInactiveTintColor: colors.textMuted,
-        tabBarActiveBackgroundColor: colors.greenSoft,
-        tabBarLabelStyle: { fontFamily: fonts.medium, fontSize: 12 },
-        tabBarItemStyle: { marginHorizontal: 6, marginVertical: 6, borderRadius: 14 },
-        tabBarStyle: {
-          height: TAB_BAR_HEIGHT + insets.bottom,
-          paddingBottom: insets.bottom,
-          paddingHorizontal: 8,
-          backgroundColor: colors.surface,
-          borderTopColor: colors.border,
-        },
       }}
     >
       <Tabs.Screen

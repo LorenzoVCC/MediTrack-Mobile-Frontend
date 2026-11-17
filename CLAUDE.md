@@ -57,7 +57,8 @@ El alias `@/` apunta a `src/` (`jsconfig.json`).
 
 ## Estilo
 
-- Paleta de la web en `src/theme/colors.js`: fondo `#FBF7F2`, texto `#2B2320`, secundario `#5C544C`, bordes `#EFE7DC`, acento `#C0392B`, cabecera `#F5DFDA`, pestaña activa `#EAF1E8` / `#3D6B4C`.
+- Paleta de la web en `src/theme/colors.js`: fondo `#FBF7F2`, texto `#2B2320`, secundario `#5C544C`, bordes `#EFE7DC`, acento `#C0392B`, cabecera `#F5DFDA`.
+- Menú inferior propio (`components/TabBar`): la pestaña activa es una píldora roja (acento `#C0392B`) con ícono y etiqueta en blanco, que se desliza entre pestañas; las inactivas van en gris (`#8A8078`). Sin ripple: al tocar solo hay una escala leve (`PressableScale`).
 - Fraunces para los títulos e Inter para el resto. Se importa cada peso por separado (`@expo-google-fonts/inter/400Regular`) para no inflar el bundle.
 - Sin librerías de UI ni de íconos: los íconos son SVG propios (`react-native-svg`).
 - Botones: `primary` (relleno acento), `secondary` (borde neutro), `destructive` (borde y texto acento).
