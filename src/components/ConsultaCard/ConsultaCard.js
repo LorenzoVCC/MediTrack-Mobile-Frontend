@@ -1,14 +1,17 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { memo } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import Chevron from '../Chevron/Chevron'
+import PressableScale from '../PressableScale/PressableScale'
 import { colors, fonts } from '@/theme'
 
 // Tarjeta de una consulta del historial. Recibe los textos ya formateados.
-export default function ConsultaCard({ date, reason, doctorName, onPress }) {
+// onPress(id): la lista pasa un callback estable, así memo evita re-renderizar las tarjetas que no cambian.
+function ConsultaCard({ id, date, reason, doctorName, onPress }) {
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityLabel={`Consulta del ${date}: ${reason}, con ${doctorName}`}
-      onPress={onPress}
+      onPress={() => onPress(id)}
       style={({ pressed }) => [styles.card, pressed && styles.pressed]}
     >
       <View style={styles.body}>
@@ -17,9 +20,11 @@ export default function ConsultaCard({ date, reason, doctorName, onPress }) {
         <Text style={styles.doctor} numberOfLines={1}>{doctorName}</Text>
       </View>
       <Chevron direction="right" />
-    </Pressable>
+    </PressableScale>
   )
 }
+
+export default memo(ConsultaCard)
 
 const styles = StyleSheet.create({
   card: {
