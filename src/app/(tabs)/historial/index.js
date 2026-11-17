@@ -41,6 +41,8 @@ export default function HistorialScreen() {
       <FlatList
         data={consultations}
         keyExtractor={keyExtractor}
+        // Pocas tarjetas en el primer render: menos trabajo de JS al montar la pantalla
+        initialNumToRender={6}
         contentContainerStyle={styles.list}
         ListHeaderComponent={<ScreenTitle title="Historial de consultas" subtitle={consultations.length ? count : null} />}
         ListEmptyComponent={<Text style={styles.empty}>Todavía no hay consultas registradas.</Text>}

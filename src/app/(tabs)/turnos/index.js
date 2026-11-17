@@ -45,6 +45,8 @@ export default function TurnosScreen() {
       <FlatList
         data={appointments}
         keyExtractor={keyExtractor}
+        // Pocas tarjetas en el primer render: menos trabajo de JS al montar la pantalla
+        initialNumToRender={6}
         contentContainerStyle={styles.list}
         ListHeaderComponent={<ScreenTitle title="Mis turnos" subtitle={subtitle} />}
         ListEmptyComponent={<Text style={styles.empty}>Todavía no tenés turnos.</Text>}
